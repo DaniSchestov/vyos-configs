@@ -1,0 +1,77 @@
+set interfaces bridge br0 enable-vlan
+set interfaces bridge br0 member interface eth1 allowed-vlan '2-99'
+set interfaces bridge br0 member interface eth1 native-vlan '1'
+set interfaces bridge br0 member interface l2tpeth0 allowed-vlan '2-99'
+set interfaces bridge br0 member interface l2tpeth0 native-vlan '1'
+set interfaces bridge br0 mtu '1500'
+set interfaces bridge br0 vif 9 address '10.1.9.253/24'
+set interfaces bridge br0 vif 9 mtu '1500'
+set interfaces bridge br0 vif 13 address '10.1.13.253/24'
+set interfaces bridge br0 vif 13 mtu '1500'
+set interfaces bridge br0 vif 99 address '10.1.99.234/24'
+set interfaces bridge br0 vif 99 mtu '1500'
+set interfaces ethernet eth0 address '141.105.69.211/26'
+set interfaces ethernet eth0 hw-id 'bc:24:11:22:93:a6'
+set interfaces ethernet eth0 offload gro
+set interfaces ethernet eth0 offload gso
+set interfaces ethernet eth0 offload sg
+set interfaces ethernet eth0 offload tso
+set interfaces ethernet eth1 hw-id 'bc:24:11:72:44:08'
+set interfaces ethernet eth1 offload gro
+set interfaces ethernet eth1 offload gso
+set interfaces ethernet eth1 offload sg
+set interfaces ethernet eth1 offload tso
+set interfaces l2tpv3 l2tpeth0 destination-port '5000'
+set interfaces l2tpv3 l2tpeth0 encapsulation 'ip'
+set interfaces l2tpv3 l2tpeth0 mtu '1500'
+set interfaces l2tpv3 l2tpeth0 peer-session-id '1'
+set interfaces l2tpv3 l2tpeth0 peer-tunnel-id '1'
+set interfaces l2tpv3 l2tpeth0 remote '141.105.65.17'
+set interfaces l2tpv3 l2tpeth0 session-id '1'
+set interfaces l2tpv3 l2tpeth0 source-address '141.105.69.211'
+set interfaces l2tpv3 l2tpeth0 source-port '5000'
+set interfaces l2tpv3 l2tpeth0 tunnel-id '1'
+set interfaces loopback lo
+set nat source rule 100 outbound-interface name 'eth0'
+set nat source rule 100 source address '10.1.0.0/16'
+set nat source rule 100 translation address '141.105.69.211'
+set protocols static route 0.0.0.0/0 next-hop 141.105.69.193
+set service ntp allow-client address '127.0.0.0/8'
+set service ntp allow-client address '169.254.0.0/16'
+set service ntp allow-client address '10.0.0.0/8'
+set service ntp allow-client address '172.16.0.0/12'
+set service ntp allow-client address '192.168.0.0/16'
+set service ntp allow-client address '::1/128'
+set service ntp allow-client address 'fe80::/10'
+set service ntp allow-client address 'fc00::/7'
+set service ntp server time1.vyos.net
+set service ntp server time2.vyos.net
+set service ntp server time3.vyos.net
+set service ssh port '2222'
+set system config-management commit-revisions '100'
+set system console device ttyS0 speed '115200'
+set system host-name 'rt-ru-core2'
+set system login user vyos authentication encrypted-password '$6$rounds=656000$2rY2QBgpTButWSoj$RSZwIynnZDGwKgZj5ZYB7K/0s2JqP8KTo1VmGF7SD6vvkVHTWdZMtI8qImQYVYOyJo/2YtgnzYTrjwRluTVj/1'
+set system login user vyos authentication plaintext-password ''
+set system syslog global facility all level 'info'
+set system syslog global facility local7 level 'debug'
+set vpn ipsec esp-group aes256-sha1-modp1024 pfs 'dh-group2'
+set vpn ipsec esp-group aes256-sha1-modp1024 proposal 1 encryption 'aes256'
+set vpn ipsec esp-group aes256-sha1-modp1024 proposal 1 hash 'sha1'
+set vpn ipsec esp-group aes256-sha1-modp1024-transport lifetime '3600'
+set vpn ipsec esp-group aes256-sha1-modp1024-transport mode 'transport'
+set vpn ipsec esp-group aes256-sha1-modp1024-transport pfs 'dh-group2'
+set vpn ipsec esp-group aes256-sha1-modp1024-transport proposal 1 encryption 'aes256'
+set vpn ipsec esp-group aes256-sha1-modp1024-transport proposal 1 hash 'sha1'
+set vpn ipsec ike-group aes128-sha1-dh14 proposal 1 dh-group '14'
+set vpn ipsec ike-group aes128-sha1-dh14 proposal 1 encryption 'aes128'
+set vpn ipsec ike-group aes128-sha1-dh14 proposal 1 hash 'sha1'
+set vpn ipsec site-to-site peer peer_141-105-65-17 authentication mode 'pre-shared-secret'
+set vpn ipsec site-to-site peer peer_141-105-65-17 authentication remote-id '141.105.65.17'
+set vpn ipsec site-to-site peer peer_141-105-65-17 default-esp-group 'aes256-sha1-modp1024-transport'
+set vpn ipsec site-to-site peer peer_141-105-65-17 description 'rt-core'
+set vpn ipsec site-to-site peer peer_141-105-65-17 force-udp-encapsulation
+set vpn ipsec site-to-site peer peer_141-105-65-17 ike-group 'aes128-sha1-dh14'
+set vpn ipsec site-to-site peer peer_141-105-65-17 local-address '141.105.69.211'
+set vpn ipsec site-to-site peer peer_141-105-65-17 remote-address '141.105.65.17'
+set vpn ipsec site-to-site peer peer_141-105-65-17 tunnel 1 protocol 'l2tp'
